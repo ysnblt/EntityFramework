@@ -1,0 +1,42 @@
+Code First=önce kod sonra db 
+DB First=önce db sonra kod
+1)önce paketler yüklenir.
+Microsoft.EntityframeworkCore.Tools
+Microsoft.EntityframeworkCore.Sqlserver
+Microsoft.EntityframeworkCore
+2)Context Folder altýnda Context class yaratýlýr.Bu da DbContext miras alýr.
+Context  classý altýnda Constructor yaratýlýr.
+public PerContext(DbContextOptions<PerContext> db) : base(db)
+        {
+
+
+        }
+3)App.Jason  dosyasýna ConnectionString  parametresi eklenir.Google entity framework core connection string sayfasý
+
+"ConnectionStrings": {
+    "BloggingDatabase": "Server=(localdb)\\mssqllocaldb;Database=EFGetStarted.ConsoleApp.NewDb;Trusted_Connection=True;"
+  },
+    
+Deðiþtirilmiþ hali:
+      "ConnectionStrings": {"PersonelDatabase": "Server=DESKTOP-4GKM6HK\\SQLEXPRESS;Database=PersonelDB2;Trusted_Connection=True;"},
+  
+  *** Database veritanýnda olmayan oluþturulmamýþ bir isim yazýlmalý.
+4)Sonra Program.cs ye Services Parametreleri eklenir.
+services.AddDbContext<BloggingContext>(options =>
+        options.UseSqlServer(Configuration.GetConnectionString("BloggingDatabase")));
+
+Deðiþtirilmiþ hali:
+builder.Services.AddDbContext<PerContext>(options =>
+       options.UseSqlServer(builder.Configuration.GetConnectionString("PersonelDatabase")));
+
+*AddDbContext<PerContext> paarmetresi ,2 adý ile ayný.
+*GetConnectionString("") parametresi ise 3 adýmla ayný olmalý
+
+5)migration yapýlmalý (Veritabaný ile Projeyi sync eder.)
+a)Add-Migration isim classlardaki ve contexdeki deðiþikleri kayýt eder.
+b)Update-Database Deðiþiklikleri  uygular.
+c)gerekli ise a adýmýna git
+tool a nuget packed manager-package manage Console
+PM>Add-Migration ilk
+komut ile oluþturulan Migration veritabanýna yansýtýlýr.
+PM>Update-Database

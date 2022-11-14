@@ -1,0 +1,47 @@
+﻿@model firstEf.Models.CategoryModel
+
+<h1>@Model.Head</h1>
+
+<h4>Categories</h4>
+<h3>@Model.IncMessage</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Categories.CategoryName" class="control-label"></label>
+                <input asp-for="Categories.CategoryName" class="form-control" />
+                <span asp-validation-for="Categories.CategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Categories.Id" class="control-label"></label>
+                <input asp-for="Categories.Id" class="form-control" />
+                <span asp-validation-for="Categories.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @if (Model.IncProducts == true)
+                {
+                    <input disabled type="submit" asp-for="Txt" class="@Model.Cls" />
+                }
+                else
+                {
+                    <input type="submit" asp-for="Txt" class="@Model.Cls" />
+                }
+            </div>
+            
+            <div class="form-group">
+                
+                <a class="btn btn-warning" href="/Categories/List">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
